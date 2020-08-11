@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\TaskResource;
+use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
@@ -25,12 +26,13 @@ class TaskController extends Controller
     /**
      * Store a newly created task in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request): Response
+    public function store(Request $request, Project $project): Response
     {
-        Task::create(['name' => $request->name]);
+        $project->tasks()->create($request->all());
 
         return response('', 201);
     }

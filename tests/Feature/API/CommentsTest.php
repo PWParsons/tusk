@@ -44,7 +44,7 @@ class CommentsTest extends TestCase
     }
 
     /** @test **/
-    public function it_does_not_display_comments_of_other_tasks(): void
+    public function it_only_displays_the_comments_of_the_give_task(): void
     {
         $taskA = factory(Task::class)->create();
         $taskB = factory(Task::class)->create();
