@@ -17,7 +17,7 @@ class CreateTasksTable extends Migration
             $table->id();
             $table->uuid('uuid');
             $table->foreignId('project_id');
-            $table->string('name');
+            $table->string('name', 100);
             $table->text('description')->nullable();
             $table->timestamps();
         });

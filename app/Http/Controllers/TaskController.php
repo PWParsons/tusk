@@ -14,13 +14,12 @@ class TaskController extends Controller
     /**
      * Display a listing of the tasks.
      *
+     * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
-    public function index(): AnonymousResourceCollection
+    public function index(Project $project): AnonymousResourceCollection
     {
-        $tasks = Task::all();
-
-        return TaskResource::collection($tasks);
+        return TaskResource::collection($project->tasks);
     }
 
     /**

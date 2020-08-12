@@ -127,9 +127,17 @@ class TasksTest extends TestCase
     }
 
     /** @test **/
+    public function it_returns_a_404_when_trying_to_get_tasks_of_a_project_that_doesnt_exist(): void
+    {
+        $this->getJson('api/projects/does-not-exists/tasks')->assertNotFound();
+    }
+
+    /** @test **/
     public function it_returns_a_404_when_trying_to_display_a_task_that_doesnt_exist(): void
     {
-        $this->getJson('api/tasks/does-not-exist')->assertNotFound();
+        $project = factory(Project::class)->create();
+
+        $this->getJson("api/projects/{$project->uuid}/tasks/does-not-exist")->assertNotFound();
     }
 
     /** @test **/

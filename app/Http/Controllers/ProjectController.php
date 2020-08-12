@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProjectStoreRequest;
+use App\Http\Requests\ProjectUpdateRequest;
 use App\Http\Resources\ProjectResource;
 use App\Models\Project;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 
@@ -25,10 +26,10 @@ class ProjectController extends Controller
     /**
      * Store a newly created project in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param  \App\Http\Requests\ProjectStoreRequest  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request): Response
+    public function store(ProjectStoreRequest $request): Response
     {
         Project::create($request->all());
 
@@ -49,11 +50,11 @@ class ProjectController extends Controller
     /**
      * Update the specified project in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\ProjectUpdateRequest  $request
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
-    public function update(Request $request, Project $project)
+    public function update(ProjectUpdateRequest $request, Project $project)
     {
         $project->update($request->all());
 
