@@ -27,6 +27,7 @@ class ProjectController extends Controller
      * Store a newly created project in storage.
      *
      * @param  \App\Http\Requests\ProjectStoreRequest  $request
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(ProjectStoreRequest $request): Response
@@ -40,6 +41,7 @@ class ProjectController extends Controller
      * Display the specified project.
      *
      * @param  \App\Models\Project  $project
+     *
      * @return \App\Http\Resources\ProjectResource
      */
     public function show(Project $project): ProjectResource
@@ -52,6 +54,7 @@ class ProjectController extends Controller
      *
      * @param  \App\Http\Requests\ProjectUpdateRequest  $request
      * @param  \App\Models\Project  $project
+     *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
      */
     public function update(ProjectUpdateRequest $request, Project $project)
@@ -65,7 +68,9 @@ class ProjectController extends Controller
      * Remove the specified project from storage.
      *
      * @param  \App\Models\Project  $project
+     *
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\Routing\ResponseFactory|\Illuminate\Http\Response
+     *
      * @throws \Exception
      */
     public function destroy(Project $project)

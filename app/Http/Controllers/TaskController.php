@@ -16,6 +16,7 @@ class TaskController extends Controller
      * Display a listing of the tasks.
      *
      * @param  \App\Models\Project  $project
+     *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index(Project $project): AnonymousResourceCollection
@@ -28,6 +29,7 @@ class TaskController extends Controller
      *
      * @param  \App\Http\Requests\TaskStoreRequest  $request
      * @param  \App\Models\Project  $project
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(TaskStoreRequest $request, Project $project): Response
@@ -41,6 +43,7 @@ class TaskController extends Controller
      * Display the specified task.
      *
      * @param \App\Models\Task $task
+     *
      * @return \App\Http\Resources\TaskResource
      */
     public function show(Task $task): TaskResource
@@ -53,6 +56,7 @@ class TaskController extends Controller
      *
      * @param  \App\Http\Requests\TaskUpdateRequest  $request
      * @param  \App\Models\Task  $task
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(TaskUpdateRequest $request, Task $task): Response
@@ -67,7 +71,9 @@ class TaskController extends Controller
      * Remove the specified task from storage.
      *
      * @param \App\Models\Task $task
+     *
      * @return \Illuminate\Http\Response
+     *
      * @throws \Exception
      */
     public function destroy(Task $task): Response

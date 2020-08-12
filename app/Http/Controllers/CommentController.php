@@ -16,6 +16,7 @@ class CommentController extends Controller
      * Display a listing of the specified task's comments.
      *
      * @param \App\Models\Task $task
+     *
      * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
      */
     public function index(Task $task): AnonymousResourceCollection
@@ -28,6 +29,7 @@ class CommentController extends Controller
      *
      * @param  \App\Http\Requests\CommentStoreRequest  $request
      * @param  \App\Models\Task  $task
+     *
      * @return \Illuminate\Http\Response
      */
     public function store(CommentStoreRequest $request, Task $task): Response
@@ -43,6 +45,7 @@ class CommentController extends Controller
      * Display the specified comment.
      *
      * @param \App\Models\Comment $comment
+     *
      * @return \App\Http\Resources\CommentResource
      */
     public function show(Comment $comment): CommentResource
@@ -55,6 +58,7 @@ class CommentController extends Controller
      *
      * @param  \App\Http\Requests\CommentUpdateRequest  $request
      * @param  \App\Models\Comment  $comment
+     *
      * @return \Illuminate\Http\Response
      */
     public function update(CommentUpdateRequest $request, Comment $comment): Response
@@ -69,7 +73,9 @@ class CommentController extends Controller
      * Remove the specified comment from storage.
      *
      * @param \App\Models\Comment $comment
+     *
      * @return \Illuminate\Http\Response
+     *
      * @throws \Exception
      */
     public function destroy(Comment $comment): Response
