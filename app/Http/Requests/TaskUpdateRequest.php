@@ -10,6 +10,7 @@ class TaskUpdateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:100'],
+            'description' => ['string', 'max:15000'],
         ];
     }
 }

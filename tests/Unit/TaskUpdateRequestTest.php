@@ -46,4 +46,30 @@ class TaskUpdateRequestTest extends TestCase
             ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
             ->assertJsonValidationErrors('name');
     }
+
+    /** @test **/
+    public function the_description_is_a_string(): void
+    {
+        $task = factory(Task::class)->create();
+
+        $this->patchJson("api/tasks/{$task->uuid}", [
+            'name' => 'Test',
+            'description' => 1,
+        ])
+            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
+            ->assertJsonValidationErrors('description');
+    }
+
+    /** @test **/
+    public function the_description_does_not_exceed_15000_chars(): void
+    {
+        $task = factory(Task::class)->create();
+
+        $this->patchJson("api/tasks/{$task->uuid}", [
+            'name' => 'Test',
+            'description' => str_repeat('a', 15001),
+        ])
+            ->assertStatus(Response::HTTP_UNPROCESSABLE_ENTITY)
+            ->assertJsonValidationErrors('description');
+    }
 }
