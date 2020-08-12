@@ -10,5 +10,6 @@ $factory->define(Task::class, static function (Faker $faker) {
     return [
         'project_id' => factory(Project::class),
         'name' => $faker->word,
+        'description' => $faker->sentence,
     ];
 });

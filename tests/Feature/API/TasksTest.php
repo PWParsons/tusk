@@ -27,18 +27,21 @@ class TasksTest extends TestCase
                     [
                         'id' => $tasks->get(0)->uuid,
                         'name' => $tasks->get(0)->name,
+                        'description' => $tasks->get(0)->description,
                         'created_at' => $tasks->get(0)->created_at->toJson(),
                         'updated_at' => $tasks->get(0)->updated_at->toJson(),
                     ],
                     [
                         'id' => $tasks->get(1)->uuid,
                         'name' => $tasks->get(1)->name,
+                        'description' => $tasks->get(1)->description,
                         'created_at' => $tasks->get(1)->created_at->toJson(),
                         'updated_at' => $tasks->get(1)->updated_at->toJson(),
                     ],
                     [
                         'id' => $tasks->get(2)->uuid,
                         'name' => $tasks->get(2)->name,
+                        'description' => $tasks->get(2)->description,
                         'created_at' => $tasks->get(2)->created_at->toJson(),
                         'updated_at' => $tasks->get(2)->updated_at->toJson(),
                     ],
@@ -64,12 +67,14 @@ class TasksTest extends TestCase
                     [
                         'id' => $tasks->get(0)->uuid,
                         'name' => $tasks->get(0)->name,
+                        'description' => $tasks->get(0)->description,
                         'created_at' => $tasks->get(0)->created_at->toJson(),
                         'updated_at' => $tasks->get(0)->updated_at->toJson(),
                     ],
                     [
                         'id' => $tasks->get(1)->uuid,
                         'name' => $tasks->get(1)->name,
+                        'description' => $tasks->get(1)->description,
                         'created_at' => $tasks->get(1)->created_at->toJson(),
                         'updated_at' => $tasks->get(1)->updated_at->toJson(),
                     ],
@@ -80,6 +85,7 @@ class TasksTest extends TestCase
                     [
                         'id' => $anotherTask->uuid,
                         'name' => $anotherTask->name,
+                        'description' => $anotherTask->description,
                         'created_at' => $anotherTask->created_at->toJson(),
                         'updated_at' => $anotherTask->updated_at->toJson(),
                     ],
@@ -113,6 +119,7 @@ class TasksTest extends TestCase
                 'data' => [
                     'id' => $task->uuid,
                     'name' => $task->name,
+                    'description' => $task->description,
                     'created_at' => $task->created_at->toJson(),
                     'updated_at' => $task->updated_at->toJson(),
                 ],

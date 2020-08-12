@@ -12,7 +12,7 @@ class Task extends Model
     use GeneratesUuid;
 
     /** {@override} */
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'description'];
 
     public function project(): BelongsTo
     {
