@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\TaskStoreRequest;
+use App\Http\Requests\TaskUpdateRequest;
 use App\Http\Resources\TaskResource;
 use App\Models\Project;
 use App\Models\Task;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 
@@ -25,11 +26,11 @@ class TaskController extends Controller
     /**
      * Store a newly created task in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Http\Requests\TaskStoreRequest  $request
      * @param  \App\Models\Project  $project
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Project $project): Response
+    public function store(TaskStoreRequest $request, Project $project): Response
     {
         $project->tasks()->create($request->all());
 
@@ -50,11 +51,11 @@ class TaskController extends Controller
     /**
      * Update the specified task in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Task $task
+     * @param  \App\Http\Requests\TaskUpdateRequest  $request
+     * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Task $task): Response
+    public function update(TaskUpdateRequest $request, Task $task): Response
     {
         $task->name = $request->name;
         $task->save();
