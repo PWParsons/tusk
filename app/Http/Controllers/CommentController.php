@@ -2,10 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CommentStoreRequest;
+use App\Http\Requests\CommentUpdateRequest;
 use App\Http\Resources\CommentResource;
 use App\Models\Comment;
 use App\Models\Task;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Http\Response;
 
@@ -23,13 +24,13 @@ class CommentController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a newly created comment in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Task $task
+     * @param  \App\Http\Requests\CommentStoreRequest  $request
+     * @param  \App\Models\Task  $task
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, Task $task): Response
+    public function store(CommentStoreRequest $request, Task $task): Response
     {
         $task->comments()->create([
             'description' => $request->description,
@@ -50,13 +51,13 @@ class CommentController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update the specified comment in storage.
      *
-     * @param \Illuminate\Http\Request $request
-     * @param \App\Models\Comment $comment
+     * @param  \App\Http\Requests\CommentUpdateRequest  $request
+     * @param  \App\Models\Comment  $comment
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Comment $comment): Response
+    public function update(CommentUpdateRequest $request, Comment $comment): Response
     {
         $comment->description = $request->description;
         $comment->save();
@@ -65,7 +66,7 @@ class CommentController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Remove the specified comment from storage.
      *
      * @param \App\Models\Comment $comment
      * @return \Illuminate\Http\Response
