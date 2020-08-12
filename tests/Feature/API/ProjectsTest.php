@@ -21,19 +21,19 @@ class ProjectsTest extends TestCase
             ->assertJson([
                 'data' => [
                     [
-                        'id' => $projects->get(0)->id,
+                        'id' => $projects->get(0)->uuid,
                         'name' => $projects->get(0)->name,
                         'created_at' => $projects->get(0)->created_at->toJson(),
                         'updated_at' => $projects->get(0)->updated_at->toJson(),
                     ],
                     [
-                        'id' => $projects->get(1)->id,
+                        'id' => $projects->get(1)->uuid,
                         'name' => $projects->get(1)->name,
                         'created_at' => $projects->get(1)->created_at->toJson(),
                         'updated_at' => $projects->get(1)->updated_at->toJson(),
                     ],
                     [
-                        'id' => $projects->get(2)->id,
+                        'id' => $projects->get(2)->uuid,
                         'name' => $projects->get(2)->name,
                         'created_at' => $projects->get(2)->created_at->toJson(),
                         'updated_at' => $projects->get(2)->updated_at->toJson(),
@@ -60,11 +60,11 @@ class ProjectsTest extends TestCase
     {
         $project = factory(Project::class)->create();
 
-        $this->getJson("api/projects/{$project->id}")
+        $this->getJson("api/projects/{$project->uuid}")
             ->assertOk()
             ->assertJson([
                 'data' => [
-                    'id' => $project->id,
+                    'id' => $project->uuid,
                     'name' => $project->name,
                     'created_at' => $project->created_at->toJson(),
                     'updated_at' => $project->updated_at->toJson(),
@@ -83,7 +83,7 @@ class ProjectsTest extends TestCase
     {
         $project = factory(Project::class)->create();
 
-        $this->patchJson("api/projects/{$project->id}", [
+        $this->patchJson("api/projects/{$project->uuid}", [
             'name' => 'Example Project',
         ])
             ->assertNoContent();
@@ -104,11 +104,11 @@ class ProjectsTest extends TestCase
     {
         $project = factory(Project::class)->create();
 
-        $this->deleteJson("api/projects/{$project->id}")
+        $this->deleteJson("api/projects/{$project->uuid}")
             ->assertNoContent();
 
         $this->assertDatabaseMissing('projects', [
-            'id' => $project->id,
+            'id' => $project->uuid,
         ]);
     }
 }

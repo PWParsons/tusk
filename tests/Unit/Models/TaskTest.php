@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Models;
 
 use App\Models\Comment;
 use App\Models\Project;
@@ -11,6 +11,22 @@ use Tests\TestCase;
 class TaskTest extends TestCase
 {
     use RefreshDatabase;
+
+    /** @test **/
+    public function it_genarates_a_uuid_on_creation(): void
+    {
+        $task = factory(Task::class)->create();
+
+        self::assertNotNull($task->uuid);
+    }
+
+    /** @test **/
+    public function the_route_key_name_is_the_uuid(): void
+    {
+        $task = factory(Task::class)->create();
+
+        self::assertEquals('uuid', $task->getRouteKeyName());
+    }
 
     /** @test **/
     public function it_has_many_comments(): void

@@ -20,24 +20,24 @@ class TasksTest extends TestCase
             'project_id' => $project,
         ]);
 
-        $this->getJson("api/projects/{$project->id}/tasks")
+        $this->getJson("api/projects/{$project->uuid}/tasks")
             ->assertOk()
             ->assertJson([
                 'data' => [
                     [
-                        'id' => $tasks->get(0)->id,
+                        'id' => $tasks->get(0)->uuid,
                         'name' => $tasks->get(0)->name,
                         'created_at' => $tasks->get(0)->created_at->toJson(),
                         'updated_at' => $tasks->get(0)->updated_at->toJson(),
                     ],
                     [
-                        'id' => $tasks->get(1)->id,
+                        'id' => $tasks->get(1)->uuid,
                         'name' => $tasks->get(1)->name,
                         'created_at' => $tasks->get(1)->created_at->toJson(),
                         'updated_at' => $tasks->get(1)->updated_at->toJson(),
                     ],
                     [
-                        'id' => $tasks->get(2)->id,
+                        'id' => $tasks->get(2)->uuid,
                         'name' => $tasks->get(2)->name,
                         'created_at' => $tasks->get(2)->created_at->toJson(),
                         'updated_at' => $tasks->get(2)->updated_at->toJson(),
@@ -57,18 +57,18 @@ class TasksTest extends TestCase
 
         $anotherTask = factory(Task::class)->create();
 
-        $this->getJson("api/projects/{$project->id}/tasks")
+        $this->getJson("api/projects/{$project->uuid}/tasks")
             ->assertOk()
             ->assertJson([
                 'data' => [
                     [
-                        'id' => $tasks->get(0)->id,
+                        'id' => $tasks->get(0)->uuid,
                         'name' => $tasks->get(0)->name,
                         'created_at' => $tasks->get(0)->created_at->toJson(),
                         'updated_at' => $tasks->get(0)->updated_at->toJson(),
                     ],
                     [
-                        'id' => $tasks->get(1)->id,
+                        'id' => $tasks->get(1)->uuid,
                         'name' => $tasks->get(1)->name,
                         'created_at' => $tasks->get(1)->created_at->toJson(),
                         'updated_at' => $tasks->get(1)->updated_at->toJson(),
@@ -78,7 +78,7 @@ class TasksTest extends TestCase
             ->assertJsonMissing([
                 'data' => [
                     [
-                        'id' => $anotherTask->id,
+                        'id' => $anotherTask->uuid,
                         'name' => $anotherTask->name,
                         'created_at' => $anotherTask->created_at->toJson(),
                         'updated_at' => $anotherTask->updated_at->toJson(),
@@ -92,7 +92,7 @@ class TasksTest extends TestCase
     {
         $project = factory(Project::class)->create();
 
-        $this->postJson("api/projects/{$project->id}/tasks", [
+        $this->postJson("api/projects/{$project->uuid}/tasks", [
             'name' => 'Example Task',
         ])
             ->assertCreated();
@@ -107,11 +107,11 @@ class TasksTest extends TestCase
     {
         $task = factory(Task::class)->create();
 
-        $this->getJson("api/tasks/{$task->id}")
+        $this->getJson("api/tasks/{$task->uuid}")
             ->assertOk()
             ->assertJson([
                 'data' => [
-                    'id' => $task->id,
+                    'id' => $task->uuid,
                     'name' => $task->name,
                     'created_at' => $task->created_at->toJson(),
                     'updated_at' => $task->updated_at->toJson(),
@@ -130,7 +130,7 @@ class TasksTest extends TestCase
     {
         $task = factory(Task::class)->create();
 
-        $this->patchJson("api/tasks/{$task->id}", [
+        $this->patchJson("api/tasks/{$task->uuid}", [
             'name' => 'Example Test',
         ])
             ->assertNoContent();
@@ -151,11 +151,11 @@ class TasksTest extends TestCase
     {
         $task = factory(Task::class)->create();
 
-        $this->deleteJson("api/tasks/{$task->id}")
+        $this->deleteJson("api/tasks/{$task->uuid}")
             ->assertNoContent();
 
         $this->assertDatabaseMissing('tasks', [
-            'id' => $task->id,
+            'id' => $task->uuid,
         ]);
     }
 

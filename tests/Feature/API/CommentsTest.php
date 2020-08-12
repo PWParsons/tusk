@@ -17,24 +17,24 @@ class CommentsTest extends TestCase
         $task = factory(Task::class)->create();
         $comments = factory(Comment::class, 3)->create(['task_id' => $task->id]);
 
-        $this->getJson("api/tasks/{$task->id}/comments")
+        $this->getJson("api/tasks/{$task->uuid}/comments")
             ->assertOk()
             ->assertJson([
                 'data' => [
                     [
-                        'id' => $comments->get(0)->id,
+                        'id' => $comments->get(0)->uuid,
                         'description' => $comments->get(0)->description,
                         'created_at' => $comments->get(0)->created_at->toJson(),
                         'updated_at' => $comments->get(0)->updated_at->toJson(),
                     ],
                     [
-                        'id' => $comments->get(1)->id,
+                        'id' => $comments->get(1)->uuid,
                         'description' => $comments->get(1)->description,
                         'created_at' => $comments->get(1)->created_at->toJson(),
                         'updated_at' => $comments->get(1)->updated_at->toJson(),
                     ],
                     [
-                        'id' => $comments->get(2)->id,
+                        'id' => $comments->get(2)->uuid,
                         'description' => $comments->get(2)->description,
                         'created_at' => $comments->get(2)->created_at->toJson(),
                         'updated_at' => $comments->get(2)->updated_at->toJson(),
@@ -48,9 +48,9 @@ class CommentsTest extends TestCase
     {
         $taskA = factory(Task::class)->create();
         $taskB = factory(Task::class)->create();
-        factory(Comment::class)->create(['task_id' => $taskB->id]);
+        factory(Comment::class)->create(['task_id' => $taskB->uuid]);
 
-        $this->getJson("api/tasks/{$taskA->id}/comments")
+        $this->getJson("api/tasks/{$taskA->uuid}/comments")
             ->assertOk()
             ->assertJson([
                 'data' => [],
@@ -68,7 +68,7 @@ class CommentsTest extends TestCase
     {
         $task = factory(Task::class)->create();
 
-        $this->postJson("api/tasks/{$task->id}/comments", [
+        $this->postJson("api/tasks/{$task->uuid}/comments", [
             'description' => 'Example comment',
         ])
             ->assertCreated();
@@ -93,11 +93,11 @@ class CommentsTest extends TestCase
     {
         $comment = factory(Comment::class)->create();
 
-        $this->getJson("api/comments/{$comment->id}")
+        $this->getJson("api/comments/{$comment->uuid}")
             ->assertOk()
             ->assertJson([
                 'data' => [
-                    'id' => $comment->id,
+                    'id' => $comment->uuid,
                     'description' => $comment->description,
                     'created_at' => $comment->created_at->toJson(),
                     'updated_at' => $comment->updated_at->toJson(),
@@ -110,7 +110,7 @@ class CommentsTest extends TestCase
     {
         $task = factory(Task::class)->create();
 
-        $this->getJson("api/tasks/{$task->id}/comments/does-not-exist")->assertNotFound();
+        $this->getJson("api/tasks/{$task->uuid}/comments/does-not-exist")->assertNotFound();
     }
 
     /** @test **/
@@ -118,7 +118,7 @@ class CommentsTest extends TestCase
     {
         $comment = factory(Comment::class)->create();
 
-        $this->patchJson("api/comments/{$comment->id}", [
+        $this->patchJson("api/comments/{$comment->uuid}", [
             'description' => 'Example comment',
         ])
             ->assertNoContent();
@@ -134,7 +134,7 @@ class CommentsTest extends TestCase
     {
         $task = factory(Task::class)->create();
 
-        $this->patchJson("api/tasks/{$task->id}/comments/does-not-exist")->assertNotFound();
+        $this->patchJson("api/tasks/{$task->uuid}/comments/does-not-exist")->assertNotFound();
     }
 
     /** @test **/
@@ -142,11 +142,11 @@ class CommentsTest extends TestCase
     {
         $comment = factory(Comment::class)->create();
 
-        $this->deleteJson("api/comments/{$comment->id}")
+        $this->deleteJson("api/comments/{$comment->uuid}")
             ->assertNoContent();
 
         $this->assertDatabaseMissing('comments', [
-            'id' => $comment->id,
+            'id' => $comment->uuid,
         ]);
     }
 
@@ -155,6 +155,6 @@ class CommentsTest extends TestCase
     {
         $task = factory(Task::class)->create();
 
-        $this->deleteJson("api/tasks/{$task->id}/comments/does-not-exist")->assertNotFound();
+        $this->deleteJson("api/tasks/{$task->uuid}/comments/does-not-exist")->assertNotFound();
     }
 }

@@ -14,6 +14,11 @@ class ProjectResource extends JsonResource
      */
     public function toArray($request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->uuid,
+            'name' => $this->name,
+            'created_at' => $this->created_at->toJson(),
+            'updated_at' => $this->updated_at->toJson(),
+        ];
     }
 }
