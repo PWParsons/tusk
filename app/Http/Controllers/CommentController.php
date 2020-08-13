@@ -50,7 +50,7 @@ class CommentController extends Controller
      */
     public function show(Comment $comment): CommentResource
     {
-        return CommentResource::make($comment);
+        return CommentResource::make($comment->loadMissing('task'));
     }
 
     /**

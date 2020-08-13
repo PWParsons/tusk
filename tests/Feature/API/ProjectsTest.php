@@ -74,7 +74,7 @@ class ProjectsTest extends TestCase
     }
 
     /** @test **/
-    public function it_includes_the_project_tasks(): void
+    public function it_includes_the_tasks_for_a_single_project(): void
     {
         $project = factory(Project::class)->create();
 

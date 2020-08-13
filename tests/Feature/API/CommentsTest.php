@@ -106,6 +106,29 @@ class CommentsTest extends TestCase
     }
 
     /** @test **/
+    public function it_includes_the_task_for_a_single_comment(): void
+    {
+        $comment = factory(Comment::class)->create();
+
+        $this->getJson("api/comments/{$comment->uuid}")
+            ->assertOk()
+            ->assertJson([
+                'data' => [
+                    'id' => $comment->uuid,
+                    'description' => $comment->description,
+                    'created_at' => $comment->created_at->toJson(),
+                    'updated_at' => $comment->updated_at->toJson(),
+                    'task' => [
+                        'id' => $comment->task->uuid,
+                        'name' => $comment->task->name,
+                        'created_at' => $comment->task->created_at->toJson(),
+                        'updated_at' => $comment->task->updated_at->toJson(),
+                    ],
+                ],
+            ]);
+    }
+
+    /** @test **/
     public function it_returns_a_404_when_trying_to_display_a_comment_that_doesnt_exist(): void
     {
         $task = factory(Task::class)->create();

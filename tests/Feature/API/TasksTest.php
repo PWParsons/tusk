@@ -128,7 +128,7 @@ class TasksTest extends TestCase
     }
 
     /** @test **/
-    public function it_includes_the_comments(): void
+    public function it_includes_the_comments_for_a_single_task(): void
     {
         $task = factory(Task::class)->create();
 
@@ -164,7 +164,7 @@ class TasksTest extends TestCase
     }
 
     /** @test **/
-    public function it_includes_the_project(): void
+    public function it_includes_the_project_for_a_single_task(): void
     {
         $task = factory(Task::class)->create();
 
