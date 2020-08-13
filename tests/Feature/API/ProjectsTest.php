@@ -3,6 +3,7 @@
 namespace Tests\Feature\API;
 
 use App\Models\Project;
+use App\Models\Task;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -68,6 +69,43 @@ class ProjectsTest extends TestCase
                     'name' => $project->name,
                     'created_at' => $project->created_at->toJson(),
                     'updated_at' => $project->updated_at->toJson(),
+                ],
+            ]);
+    }
+
+    /** @test **/
+    public function it_includes_the_project_tasks(): void
+    {
+        $project = factory(Project::class)->create();
+
+        $tasks = factory(Task::class, 2)->create([
+            'project_id' => $project->id,
+        ]);
+
+        $this->getJson("api/projects/{$project->uuid}")
+            ->assertOk()
+            ->assertJson([
+                'data' => [
+                    'id' => $project->uuid,
+                    'name' => $project->name,
+                    'created_at' => $project->created_at->toJson(),
+                    'updated_at' => $project->updated_at->toJson(),
+                    'tasks' => [
+                        [
+                            'id' => $tasks->get(0)->uuid,
+                            'name' => $tasks->get(0)->name,
+                            'description' => $tasks->get(0)->description,
+                            'created_at' => $tasks->get(0)->created_at->toJson(),
+                            'updated_at' => $tasks->get(0)->updated_at->toJson(),
+                        ],
+                        [
+                            'id' => $tasks->get(1)->uuid,
+                            'name' => $tasks->get(1)->name,
+                            'description' => $tasks->get(1)->description,
+                            'created_at' => $tasks->get(1)->created_at->toJson(),
+                            'updated_at' => $tasks->get(1)->updated_at->toJson(),
+                        ],
+                    ],
                 ],
             ]);
     }

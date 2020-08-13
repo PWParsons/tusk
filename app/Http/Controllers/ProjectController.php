@@ -46,7 +46,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project): ProjectResource
     {
-        return new ProjectResource($project);
+        return ProjectResource::make($project->loadMissing('tasks'));
     }
 
     /**

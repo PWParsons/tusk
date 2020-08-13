@@ -48,7 +48,7 @@ class TaskController extends Controller
      */
     public function show(Task $task): TaskResource
     {
-        return new TaskResource($task);
+        return TaskResource::make($task);
     }
 
     /**
