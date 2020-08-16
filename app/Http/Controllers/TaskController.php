@@ -30,13 +30,13 @@ class TaskController extends Controller
      * @param  \App\Http\Requests\TaskStoreRequest  $request
      * @param  \App\Models\Project  $project
      *
-     * @return \Illuminate\Http\Response
+     * @return \App\Http\Resources\TaskResource
      */
-    public function store(TaskStoreRequest $request, Project $project): Response
+    public function store(TaskStoreRequest $request, Project $project): TaskResource
     {
-        $project->tasks()->create($request->all());
+        $task = $project->tasks()->create($request->all());
 
-        return response('', 201);
+        return TaskResource::make($task);
     }
 
     /**

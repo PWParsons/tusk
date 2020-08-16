@@ -7,7 +7,6 @@ use App\Http\Requests\ProjectUpdateRequest;
 use App\Http\Resources\ProjectResource;
 use App\Models\Project;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
-use Illuminate\Http\Response;
 
 class ProjectController extends Controller
 {
@@ -28,13 +27,13 @@ class ProjectController extends Controller
      *
      * @param  \App\Http\Requests\ProjectStoreRequest  $request
      *
-     * @return \Illuminate\Http\Response
+     * @return \App\Http\Resources\ProjectResource
      */
-    public function store(ProjectStoreRequest $request): Response
+    public function store(ProjectStoreRequest $request): ProjectResource
     {
-        Project::create($request->all());
+        $project = Project::create($request->all());
 
-        return response('', 201);
+        return ProjectResource::make($project);
     }
 
     /**

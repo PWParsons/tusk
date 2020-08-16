@@ -101,6 +101,15 @@ class TasksTest extends TestCase
         $this->postJson("api/projects/{$project->uuid}/tasks", [
             'name' => 'Example Task',
         ])
+            ->assertJsonStructure([
+                'data' => [
+                    'id',
+                    'name',
+                    'description',
+                    'created_at',
+                    'updated_at',
+                ],
+            ])
             ->assertCreated();
 
         $this->assertDatabaseHas('tasks', [

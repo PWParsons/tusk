@@ -30,15 +30,13 @@ class CommentController extends Controller
      * @param  \App\Http\Requests\CommentStoreRequest  $request
      * @param  \App\Models\Task  $task
      *
-     * @return \Illuminate\Http\Response
+     * @return \App\Http\Resources\CommentResource
      */
-    public function store(CommentStoreRequest $request, Task $task): Response
+    public function store(CommentStoreRequest $request, Task $task): CommentResource
     {
-        $task->comments()->create([
-            'description' => $request->description,
-        ]);
+        $comment = $task->comments()->create($request->all());
 
-        return response('', 201);
+        return CommentResource::make($comment);
     }
 
     /**

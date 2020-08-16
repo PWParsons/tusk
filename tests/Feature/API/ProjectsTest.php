@@ -48,6 +48,14 @@ class ProjectsTest extends TestCase
         $this->postJson('api/projects', [
             'name' => 'Example Project',
         ])
+            ->assertJsonStructure([
+                'data' => [
+                    'id',
+                    'name',
+                    'created_at',
+                    'updated_at',
+                ],
+            ])
             ->assertCreated();
 
         $this->assertDatabaseHas('projects', [

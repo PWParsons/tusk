@@ -71,6 +71,14 @@ class CommentsTest extends TestCase
         $this->postJson("api/tasks/{$task->uuid}/comments", [
             'description' => 'Example comment',
         ])
+            ->assertJsonStructure([
+                'data' => [
+                    'id',
+                    'description',
+                    'created_at',
+                    'updated_at',
+                ],
+            ])
             ->assertCreated();
 
         $this->assertDatabaseHas('comments', [
