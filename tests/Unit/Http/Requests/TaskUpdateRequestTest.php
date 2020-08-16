@@ -1,6 +1,6 @@
 <?php
 
-namespace Tests\Unit;
+namespace Tests\Unit\Http\Requests;
 
 use App\Models\Task;
 use Illuminate\Foundation\Testing\RefreshDatabase;

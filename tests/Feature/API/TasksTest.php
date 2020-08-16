@@ -128,66 +128,6 @@ class TasksTest extends TestCase
     }
 
     /** @test **/
-    public function it_includes_the_comments_for_a_single_task(): void
-    {
-        $task = factory(Task::class)->create();
-
-        $comments = factory(Comment::class, 2)->create([
-            'task_id' => $task->id,
-        ]);
-
-        $this->getJson("api/tasks/{$task->uuid}")
-            ->assertOk()
-            ->assertJson([
-                'data' => [
-                    'id' => $task->uuid,
-                    'name' => $task->name,
-                    'description' => $task->description,
-                    'created_at' => $task->created_at->toJson(),
-                    'updated_at' => $task->updated_at->toJson(),
-                    'comments' => [
-                        [
-                            'id' => $comments->get(0)->uuid,
-                            'description' => $comments->get(0)->description,
-                            'created_at' => $comments->get(0)->created_at->toJson(),
-                            'updated_at' => $comments->get(0)->updated_at->toJson(),
-                        ],
-                        [
-                            'id' => $comments->get(1)->uuid,
-                            'description' => $comments->get(1)->description,
-                            'created_at' => $comments->get(1)->created_at->toJson(),
-                            'updated_at' => $comments->get(1)->updated_at->toJson(),
-                        ],
-                    ],
-                ],
-            ]);
-    }
-
-    /** @test **/
-    public function it_includes_the_project_for_a_single_task(): void
-    {
-        $task = factory(Task::class)->create();
-
-        $this->getJson("api/tasks/{$task->uuid}")
-            ->assertOk()
-            ->assertJson([
-                'data' => [
-                    'id' => $task->uuid,
-                    'name' => $task->name,
-                    'description' => $task->description,
-                    'created_at' => $task->created_at->toJson(),
-                    'updated_at' => $task->updated_at->toJson(),
-                    'project' => [
-                        'id' => $task->project->uuid,
-                        'name' => $task->project->name,
-                        'created_at' => $task->project->created_at->toJson(),
-                        'updated_at' => $task->project->updated_at->toJson(),
-                    ],
-                ],
-            ]);
-    }
-
-    /** @test **/
     public function it_returns_a_404_when_trying_to_get_tasks_of_a_project_that_doesnt_exist(): void
     {
         $this->getJson('api/projects/does-not-exists/tasks')->assertNotFound();
