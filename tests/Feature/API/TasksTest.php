@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\API;
 
-use App\Models\Comment;
 use App\Models\Project;
 use App\Models\Task;
 use Illuminate\Foundation\Testing\RefreshDatabase;
