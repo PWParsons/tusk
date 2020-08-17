@@ -4,7 +4,9 @@ namespace Tests\Feature\API;
 
 use App\Models\Project;
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class TasksTest extends TestCase
@@ -12,8 +14,20 @@ class TasksTest extends TestCase
     use RefreshDatabase;
 
     /** @test **/
+    public function unauthenticated_users_cannot_manage_tasks(): void
+    {
+        $this->getJson('api/projects/1/tasks')->assertUnauthorized();
+        $this->postJson('api/projects/1/tasks')->assertUnauthorized();
+        $this->getJson('api/tasks/1')->assertUnauthorized();
+        $this->patchJson('api/tasks/1')->assertUnauthorized();
+        $this->deleteJson('api/tasks/1')->assertUnauthorized();
+    }
+
+    /** @test **/
     public function it_can_display_a_list_of_tasks(): void
     {
+        Sanctum::actingAs(factory(User::class)->create());
+
         $project = factory(Project::class)->create();
 
         $tasks = factory(Task::class, 3)->create([
@@ -52,6 +66,8 @@ class TasksTest extends TestCase
     /** @test **/
     public function it_only_displays_the_given_projects_tasks(): void
     {
+        Sanctum::actingAs(factory(User::class)->create());
+
         $project = factory(Project::class)->create();
 
         $tasks = factory(Task::class, 2)->create([
@@ -96,6 +112,8 @@ class TasksTest extends TestCase
     /** @test **/
     public function it_can_create_a_task(): void
     {
+        Sanctum::actingAs(factory(User::class)->create());
+
         $project = factory(Project::class)->create();
 
         $this->postJson("api/projects/{$project->uuid}/tasks", [
@@ -120,6 +138,8 @@ class TasksTest extends TestCase
     /** @test **/
     public function it_can_display_a_task(): void
     {
+        Sanctum::actingAs(factory(User::class)->create());
+
         $task = factory(Task::class)->create();
 
         $this->getJson("api/tasks/{$task->uuid}")
@@ -138,12 +158,16 @@ class TasksTest extends TestCase
     /** @test **/
     public function it_returns_a_404_when_trying_to_get_tasks_of_a_project_that_doesnt_exist(): void
     {
+        Sanctum::actingAs(factory(User::class)->create());
+
         $this->getJson('api/projects/does-not-exists/tasks')->assertNotFound();
     }
 
     /** @test **/
     public function it_returns_a_404_when_trying_to_display_a_task_that_doesnt_exist(): void
     {
+        Sanctum::actingAs(factory(User::class)->create());
+
         $project = factory(Project::class)->create();
 
         $this->getJson("api/projects/{$project->uuid}/tasks/does-not-exist")->assertNotFound();
@@ -152,6 +176,8 @@ class TasksTest extends TestCase
     /** @test **/
     public function it_can_update_a_task(): void
     {
+        Sanctum::actingAs(factory(User::class)->create());
+
         $task = factory(Task::class)->create();
 
         $this->patchJson("api/tasks/{$task->uuid}", [
@@ -167,12 +193,16 @@ class TasksTest extends TestCase
     /** @test **/
     public function it_returns_a_404_when_trying_to_update_a_task_that_doesnt_exist(): void
     {
+        Sanctum::actingAs(factory(User::class)->create());
+
         $this->patchJson('api/tasks/does-not-exist')->assertNotFound();
     }
 
     /** @test **/
     public function it_can_delete_a_task(): void
     {
+        Sanctum::actingAs(factory(User::class)->create());
+
         $task = factory(Task::class)->create();
 
         $this->deleteJson("api/tasks/{$task->uuid}")
@@ -186,6 +216,8 @@ class TasksTest extends TestCase
     /** @test **/
     public function it_returns_a_404_when_trying_to_delete_a_task_that_doesnt_exist(): void
     {
+        Sanctum::actingAs(factory(User::class)->create());
+
         $this->deleteJson('api/tasks/does-not-exist')->assertNotFound();
     }
 }

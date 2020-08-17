@@ -4,7 +4,9 @@ namespace Tests\Feature\API;
 
 use App\Models\Comment;
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Laravel\Sanctum\Sanctum;
 use Tests\TestCase;
 
 class CommentsTest extends TestCase
@@ -12,9 +14,22 @@ class CommentsTest extends TestCase
     use RefreshDatabase;
 
     /** @test **/
+    public function unauthenticated_users_cannot_manage_comments(): void
+    {
+        $this->getJson('api/tasks/1/comments')->assertUnauthorized();
+        $this->postJson('api/tasks/1/comments')->assertUnauthorized();
+        $this->getJson('api/comments/1')->assertUnauthorized();
+        $this->patchJson('api/comments/1')->assertUnauthorized();
+        $this->deleteJson('api/comments/1')->assertUnauthorized();
+    }
+
+    /** @test **/
     public function it_can_display_a_listing_of_the_comment(): void
     {
+        Sanctum::actingAs(factory(User::class)->create());
+
         $task = factory(Task::class)->create();
+
         $comments = factory(Comment::class, 3)->create(['task_id' => $task->id]);
 
         $this->getJson("api/tasks/{$task->uuid}/comments")
@@ -46,8 +61,12 @@ class CommentsTest extends TestCase
     /** @test **/
     public function it_only_displays_the_comments_of_the_give_task(): void
     {
+        Sanctum::actingAs(factory(User::class)->create());
+
         $taskA = factory(Task::class)->create();
+
         $taskB = factory(Task::class)->create();
+
         factory(Comment::class)->create(['task_id' => $taskB->uuid]);
 
         $this->getJson("api/tasks/{$taskA->uuid}/comments")
@@ -60,12 +79,16 @@ class CommentsTest extends TestCase
     /** @test **/
     public function it_returns_a_404_when_trying_to_display_comments_of_a_task_that_doesnt_exist(): void
     {
+        Sanctum::actingAs(factory(User::class)->create());
+
         $this->getJson('api/tasks/does-not-exist/comments')->assertNotFound();
     }
 
     /** @test **/
     public function it_can_create_a_comment(): void
     {
+        Sanctum::actingAs(factory(User::class)->create());
+
         $task = factory(Task::class)->create();
 
         $this->postJson("api/tasks/{$task->uuid}/comments", [
@@ -90,6 +113,8 @@ class CommentsTest extends TestCase
     /** @test **/
     public function it_returns_a_404_when_trying_to_create_a_comment_for_a_task_that_doesnt_exist(): void
     {
+        Sanctum::actingAs(factory(User::class)->create());
+
         $this->postJson('api/tasks/does-not-exist/comments', [
             'description' => 'Example comment',
         ])
@@ -99,6 +124,8 @@ class CommentsTest extends TestCase
     /** @test **/
     public function it_can_display_a_comment(): void
     {
+        Sanctum::actingAs(factory(User::class)->create());
+
         $comment = factory(Comment::class)->create();
 
         $this->getJson("api/comments/{$comment->uuid}")
@@ -116,6 +143,8 @@ class CommentsTest extends TestCase
     /** @test **/
     public function it_returns_a_404_when_trying_to_display_a_comment_that_doesnt_exist(): void
     {
+        Sanctum::actingAs(factory(User::class)->create());
+
         $task = factory(Task::class)->create();
 
         $this->getJson("api/tasks/{$task->uuid}/comments/does-not-exist")->assertNotFound();
@@ -124,6 +153,8 @@ class CommentsTest extends TestCase
     /** @test **/
     public function it_can_update_a_comment(): void
     {
+        Sanctum::actingAs(factory(User::class)->create());
+
         $comment = factory(Comment::class)->create();
 
         $this->patchJson("api/comments/{$comment->uuid}", [
@@ -148,6 +179,8 @@ class CommentsTest extends TestCase
     /** @test **/
     public function it_can_delete_a_comment(): void
     {
+        Sanctum::actingAs(factory(User::class)->create());
+
         $comment = factory(Comment::class)->create();
 
         $this->deleteJson("api/comments/{$comment->uuid}")

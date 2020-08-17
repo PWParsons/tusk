@@ -3,8 +3,11 @@
 Route::post('register', 'Auth\RegisterController@register');
 Route::post('login', 'Auth\LoginController@login');
 
-Route::apiResource('projects', 'ProjectController');
+Route::middleware('auth:sanctum')->group(static function () {
+    Route::apiResource('projects', 'ProjectController');
 
-Route::apiResource('projects.tasks', 'TaskController')->shallow();
+    Route::apiResource('projects.tasks', 'TaskController')->shallow();
 
-Route::apiResource('tasks.comments', 'CommentController')->shallow();
+    Route::apiResource('tasks.comments', 'CommentController')->shallow();
+});
+
