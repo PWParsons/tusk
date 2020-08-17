@@ -10,4 +10,3 @@ Route::middleware('auth:sanctum')->group(static function () {
 
     Route::apiResource('tasks.comments', 'CommentController')->shallow();
 });
-
