@@ -51,6 +51,11 @@ jobs:
           composer require "laravel/framework:${{ matrix.laravel }}" "orchestra/testbench:${{ matrix.testbench }}" --no-interaction --no-update
           composer update --${{ matrix.dependency-version }} --prefer-dist --no-interaction --no-suggest
 
+      - name: Generate Application Encryption Key
+        run: |
+          php artisan key:generate
+          php artisan config:clear
+
       - name: Execute tests
         run: vendor/bin/phpunit
         env:
